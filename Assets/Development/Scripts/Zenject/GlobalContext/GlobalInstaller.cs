@@ -13,6 +13,7 @@ public class GlobalInstaller : MonoInstaller
 
     private void BindServices()
     {
+        Container.Bind<Wallet>().AsSingle();
         Container.BindInterfacesAndSelfTo<UpdateHandler>().FromInstance(_updateHandler).AsSingle();
     }
 }

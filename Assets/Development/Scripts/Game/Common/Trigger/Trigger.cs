@@ -4,7 +4,7 @@ using GameHandler;
 using UnityEngine;
 using Zenject;
 
-[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(Collider2D))]
 public abstract class Trigger<T> : MonoBehaviour where T : MonoBehaviour
 {
     [SerializeField] private bool _disableStayCallback = false;
@@ -13,8 +13,8 @@ public abstract class Trigger<T> : MonoBehaviour where T : MonoBehaviour
     public event Action<T> Stay;
     public event Action<T> Exit;
 
-    private Collider _collider;
-    private List<KeyValuePair<Collider, T>> _enteredObjects;
+    private Collider2D _collider2D;
+    private List<KeyValuePair<Collider2D, T>> _enteredObjects;
 
     protected virtual int Layer => LayerMask.NameToLayer("Trigger");
 
@@ -31,10 +31,10 @@ public abstract class Trigger<T> : MonoBehaviour where T : MonoBehaviour
     private void Awake()
     {
         gameObject.layer = Layer;
-        _enteredObjects = new List<KeyValuePair<Collider, T>>();
+        _enteredObjects = new List<KeyValuePair<Collider2D, T>>();
 
-        _collider = GetComponent<Collider>();
-        _collider.isTrigger = true;
+        _collider2D = GetComponent<Collider2D>();
+        _collider2D.isTrigger = true;
     }
 
     private void Update()
@@ -52,22 +52,22 @@ public abstract class Trigger<T> : MonoBehaviour where T : MonoBehaviour
             if (_enteredObjects[i].Key == null)
                 _enteredObjects.RemoveAt(i);
             else if (_enteredObjects[i].Key.enabled == false)
-                OnTriggerExit(_enteredObjects[i].Key);
+                OnTriggerExit2D(_enteredObjects[i].Key);
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent(out T triggered))
         {
-            _enteredObjects.Add(new KeyValuePair<Collider, T>(other, triggered));
+            _enteredObjects.Add(new KeyValuePair<Collider2D, T>(other, triggered));
             Enter?.Invoke(triggered);
 
             OnEnter(triggered);
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (_disableStayCallback)
             return;
@@ -79,11 +79,11 @@ public abstract class Trigger<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (other.TryGetComponent(out T triggeredObject))
         {
-            _enteredObjects.Remove(new KeyValuePair<Collider, T>(other, triggeredObject));
+            _enteredObjects.Remove(new KeyValuePair<Collider2D, T>(other, triggeredObject));
             Exit?.Invoke(triggeredObject);
 
             OnExit(triggeredObject);
@@ -94,7 +94,7 @@ public abstract class Trigger<T> : MonoBehaviour where T : MonoBehaviour
     {
         _updateHandler.AddUpdate(OnUpdate);
 
-        _collider.enabled = true;
+        _collider2D.enabled = true;
         Enabled();
     }
 
@@ -102,7 +102,7 @@ public abstract class Trigger<T> : MonoBehaviour where T : MonoBehaviour
     {
         _updateHandler.RemoveUpdate(OnUpdate);
 
-        _collider.enabled = false;
+        _collider2D.enabled = false;
         Disabled();
 
         foreach (var triggered in _enteredObjects)

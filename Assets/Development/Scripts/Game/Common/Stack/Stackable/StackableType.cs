@@ -1,6 +1,6 @@
 public enum StackableType
 {
-    Fish = 0,
+    Money = 0,
     Stack1 = 1,
     Stack2 = 2,
     Stack3 = 3,
