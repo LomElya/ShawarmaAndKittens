@@ -3,7 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(Animator), typeof(SpriteRenderer))]
 public class CharacterView : MonoBehaviour
 {
-    [SerializeField] private StackPresenter _playerStack;
     protected Animator _animator;
     private SpriteRenderer _spriteRenderer;
 
@@ -18,18 +17,6 @@ public class CharacterView : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
 
         OnAwake();
-    }
-
-    private void OnEnable()
-    {
-        _playerStack.Added += OnAdded;
-        _playerStack.BecameEmpty += OnBecameEmpty;
-    }
-
-    private void OnDisable()
-    {
-        _playerStack.Added -= OnAdded;
-        _playerStack.BecameEmpty -= OnBecameEmpty;
     }
 
     public void SetMove(bool moving)

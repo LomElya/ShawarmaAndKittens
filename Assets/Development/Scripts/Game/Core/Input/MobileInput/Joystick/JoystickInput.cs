@@ -56,7 +56,7 @@ namespace InputSystem
                 return;
             }
 
-            Vector3 rawDirection = new Vector3(_joystick.Direction.x, _joystick.Direction.y, 0);
+            Vector2 rawDirection = new Vector2(_joystick.Direction.x, _joystick.Direction.y);
             _movable.Move(rawDirection);
 
             Moved?.Invoke();

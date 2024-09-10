@@ -12,7 +12,6 @@ public abstract class StackView : MonoBehaviour, IStackableContainer
     [SerializeField] private Transform _stackContainer;
     [SerializeField] private float _animationDuration;
     [SerializeField] private FloatSetting _scalePunch = new FloatSetting(true, 1.1f);
-    [SerializeField] private FloatSetting _jumpPower = new FloatSetting(false, 0f);
     [SerializeField] private Vector2 _scaleMultiply = Vector3.one;
 
     private List<Transform> _transforms = new List<Transform>();
@@ -21,14 +20,12 @@ public abstract class StackView : MonoBehaviour, IStackableContainer
     {
         Vector2 defaultScale = stackable.transform.localScale;
 
-        stackable.transform.localScale =
-        new Vector2(
+        stackable.transform.localScale = new Vector2(
             _scaleMultiply.x * defaultScale.x,
             _scaleMultiply.y * defaultScale.y);
 
         Vector2 endPosition = CalculateAddEndPosition(_stackContainer, stackable.transform);
         Vector2 endRotation = CalculateEndRotation(_stackContainer, stackable.transform);
-
 
         stackable.transform.DOComplete(true);
         stackable.transform.parent = _stackContainer;
@@ -38,8 +35,6 @@ public abstract class StackView : MonoBehaviour, IStackableContainer
 
         if (_scalePunch.Enabled)
             stackable.transform.DOPunchScale(defaultScale * _scalePunch.Value, _animationDuration);
-        if (_jumpPower.Enabled)
-            stackable.transform.DOLocalJump(endPosition, _jumpPower.Value, 1, _animationDuration);
 
         _transforms.Add(stackable.transform);
         Added?.Invoke(stackable);

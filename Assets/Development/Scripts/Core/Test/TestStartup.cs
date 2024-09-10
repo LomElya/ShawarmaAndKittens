@@ -4,7 +4,7 @@ using Zenject;
 
 public class TestStartup : MonoBehaviour
 {
-     [SerializeField] private MovableCharacter _playerMovement;
+     [SerializeField] private MovementCharacter _playerMovement;
 
     private IInput _input;
 
