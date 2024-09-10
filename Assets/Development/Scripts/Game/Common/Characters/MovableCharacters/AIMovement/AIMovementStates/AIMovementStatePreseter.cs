@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Zenject;
 
 public class AIMovementStatePreseter : MonoBehaviour
 {
@@ -9,9 +10,17 @@ public class AIMovementStatePreseter : MonoBehaviour
 
     private Dictionary<AIMovementStateType, SequenceStateData> _states = new();
 
-    private AIMovementStates _currentState;
+    private AIMovementState _currentState;
 
-    public void Run()
+    protected AIMovementStateFabric _fabric;
+
+    [Inject]
+    private void Construct(AIMovementStateFabric stateFabric)
+    {
+        _fabric = stateFabric;
+    }
+
+    private void Run()
     {
         SetState(GetFirstType());
     }
@@ -21,24 +30,27 @@ public class AIMovementStatePreseter : MonoBehaviour
         if (_currentState != null)
             ExitState();
 
-        AIMovementStates newState;
+        AIMovementState newState;
         GetState(out newState, stateType);
         EnterState(newState);
     }
 
-    private void GetState(out AIMovementStates newState, AIMovementStateType stateType)
+    private void GetState(out AIMovementState newState, AIMovementStateType stateType)
     {
         if (_states.ContainsKey(stateType))
             newState = _states[stateType].Get();
         else
         {
-            newState = null;
+            Debug.Log(_fabric);
+            SequenceStateData stateData = GetData(stateType);
+            newState = _fabric.CreateState(stateData.Type, stateData.TargetState, _parent);
+            stateData.Add(newState);
 
-            AddStates(stateType, newState);
+            AddStates(stateType, stateData);
         }
     }
 
-    private void EnterState(AIMovementStates newState)
+    private void EnterState(AIMovementState newState)
     {
         _currentState = newState;
         _currentState.ChangeState += SetState;
@@ -51,10 +63,9 @@ public class AIMovementStatePreseter : MonoBehaviour
         _currentState.Exit();
     }
 
-    private void AddStates(AIMovementStateType stateType, AIMovementStates state)
+    private void AddStates(AIMovementStateType stateType, SequenceStateData stateData)
     {
-        SequenceStateData stateData = _sequencesState.FirstOrDefault(type => type.Type == stateType);
-        _states.Add(stateType, stateData.Add(state));
+        _states.Add(stateType, stateData);
     }
 
     private AIMovementStateType GetFirstType()
@@ -65,6 +76,8 @@ public class AIMovementStatePreseter : MonoBehaviour
         Debug.LogWarning("Не назначен ни один State. Выбран LeaveCafe");
         return AIMovementStateType.LeaveCafe;
     }
+
+    private SequenceStateData GetData(AIMovementStateType stateType) => _sequencesState.FirstOrDefault(type => type.Type == stateType);
 
     private void OnEnable()
     {

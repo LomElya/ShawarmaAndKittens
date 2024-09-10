@@ -1,6 +1,6 @@
 using System;
 
-public abstract class AIMovementStates
+public abstract class AIMovementState
 {
     public event Action<AIMovementStateType> ChangeState;
 
@@ -11,12 +11,12 @@ public abstract class AIMovementStates
 
     public AIMovementStateType StateType => _stateType;
 
-    public AIMovementStates(AIMovementStateType stateType, AIMovement movenemt)
+    public AIMovementState(AIMovementStateType stateType, AIMovementStateType targetState, AIMovement movenemt)
     {
         _movement = movenemt;
 
         _stateType = stateType;
-        Transition = SetTransition();
+        Transition = SetTransition(targetState);
     }
 
     public void Enter()
@@ -35,6 +35,5 @@ public abstract class AIMovementStates
 
     protected abstract void onEnter();
     protected abstract void onExit();
-
-    public abstract Transition SetTransition();
+    public abstract Transition SetTransition(AIMovementStateType targetState);
 }

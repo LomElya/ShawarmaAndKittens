@@ -12,25 +12,25 @@ public class DeliveryTable : InteractableObject
     // public IEnumerable<StackableType> PurchaseTypes => _activeCustomer.PurchaseList.Items.Keys;
     // public PurchaseList PurchaseList => _activeCustomer.PurchaseList;
 
-    // public IEnumerable<Stackable> TakeAllItems()
-    // {
-    //     IEnumerable<Stackable> stackables = new List<Stackable>();
-    //     stackables = _deliveryStacks.Aggregate(stackables, (current, stack) => current.Concat(stack.RemoveAll()));
+    public IEnumerable<Stackable> TakeAllItems()
+    {
+        IEnumerable<Stackable> stackables = new List<Stackable>();
+        stackables = _deliveryStacks.Aggregate(stackables, (current, stack) => current.Concat(stack.RemoveAll()));
 
-    //     _activeCustomer.Pay(_moneyZone, _activeCustomer.PurchaseList.TotalPrice);
-    //     _moneyZone.SetActive(false);
-    //     StartCoroutine(ActivationDelay(ActiveMoneyZone));
+        //_activeCustomer.Pay(_moneyZone, _activeCustomer.PurchaseList.TotalPrice);
+        _moneyZone.SetActive(false);
+        StartCoroutine(ActivationDelay(ActiveMoneyZone));
 
-    //     return stackables;
-    // }
+        return stackables;
+    }
 
-    // public void Deliver(StackableType type)
-    // {
-    //     if (Active == false)
-    //         throw new InvalidOperationException();
+    public void Deliver(StackableType type)
+    {
+        if (Active == false)
+            throw new InvalidOperationException();
 
-    //     _activeCustomer.PurchaseList.Remove(type);
-    // }
+        //_activeCustomer.PurchaseList.Remove(type);
+    }
 
     private IEnumerator MoneyZoneActivationDelay()
     {

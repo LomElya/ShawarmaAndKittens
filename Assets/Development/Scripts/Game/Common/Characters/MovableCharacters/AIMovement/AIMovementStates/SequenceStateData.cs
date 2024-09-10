@@ -4,15 +4,17 @@ using UnityEngine;
 public class SequenceStateData
 {
     [SerializeField] private AIMovementStateType _stateType;
+    [SerializeField] private AIMovementStateType _targerStateType;
 
     public AIMovementStateType Type => _stateType;
+    public AIMovementStateType TargetState => _targerStateType;
 
-    private AIMovementStates _state;
+    private AIMovementState _state;
 
-    public SequenceStateData Add(AIMovementStates state)
+    public SequenceStateData Add(AIMovementState state)
     {
         _state = state;
         return this;
     }
-    public AIMovementStates Get() => _state;
+    public AIMovementState Get() => _state;
 }

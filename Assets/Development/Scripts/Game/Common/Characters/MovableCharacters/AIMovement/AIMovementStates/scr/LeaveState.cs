@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class LeaveState : AIMovementStates
+public class LeaveState : AIMovementState
 {
-    public LeaveState(AIMovementStateType stateType, AIMovement movenemt) : base(stateType, movenemt)
+    public LeaveState(AIMovementStateType stateType, AIMovementStateType targetState, AIMovement movenemt) : base(stateType, targetState, movenemt)
     {
     }
 
-    public override Transition SetTransition() => new NoneTransition();
+    public override Transition SetTransition(AIMovementStateType targetState)=> new NoneTransition();
 
     protected override void onEnter()
     {
@@ -22,4 +22,6 @@ public class LeaveState : AIMovementStates
     }
 
     protected override void onExit() { }
+
+
 }

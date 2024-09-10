@@ -11,6 +11,8 @@ public class InteractableObject : MonoBehaviour
 
     [SerializeField] protected Transform _customerWaitPoint;
 
+    protected Customer _activeCustomer;
+
     public bool Active { get; private set; }
     public bool Free { get; private set; } = true;
 
@@ -53,7 +55,7 @@ public class InteractableObject : MonoBehaviour
     protected virtual void OnLeave() { }
     protected virtual void OnEnter() { }
 
-    private IEnumerator ActivationDelay(Action actionActivation, float delay = NewCustomerSetDelay)
+    protected IEnumerator ActivationDelay(Action actionActivation, float delay = NewCustomerSetDelay)
     {
         yield return new WaitForSeconds(delay);
         actionActivation?.Invoke();

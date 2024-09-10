@@ -27,14 +27,6 @@ public class MoneyPayer : MonoBehaviour
     private void Awake()
     {
         _defaultDollars = _dollars;
-        StartCoroutine(TestPayMoney());
-    }
-
-    private IEnumerator TestPayMoney()
-    {
-        yield return new WaitForSeconds(0.5f);
-
-        Pay(_moneyZone, _dollars);
     }
 
     public void MultiplyDollars()
