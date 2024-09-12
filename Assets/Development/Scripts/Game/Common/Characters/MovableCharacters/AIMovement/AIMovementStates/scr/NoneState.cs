@@ -1,10 +1,10 @@
 public class NoneState : AIMovementState
 {
-    public NoneState(AIMovementStateType stateType, AIMovementStateType targetState, AIMovement movenemt) : base(stateType, targetState, movenemt)
+    public NoneState(AIMovementStateType stateType, AIMovement movenemt) : base(stateType, movenemt)
     {
     }
 
-    public override Transition SetTransition(AIMovementStateType targetState) => new NoneTransition();
+    public override Transition GetTransition(AIMovementStateType targetState) => new NoneTransition();
 
     protected override void onEnter() { }
     protected override void onExit() { }

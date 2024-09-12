@@ -5,12 +5,13 @@ using UnityEngine.Events;
 
 public class StackStorage
 {
-    private readonly List<Stackable> _stackables = new List<Stackable>();
+    private readonly List<Stackable> _stackables = new();
     private readonly List<StackableTypes> _allTypesThatCanBeAdded;
+
     private StackableTypes _currentTypesThatCanBeAdded;
     private int _capacity;
 
-    public event UnityAction CapacityChanged;
+    public event Action CapacityChanged;
 
     public int Count => _stackables.Count;
     public int Capacity => _capacity;
@@ -39,7 +40,7 @@ public class StackStorage
     public void Add(Stackable stackable)
     {
         if (CanAdd(stackable.Type) == false)
-            throw new InvalidOperationException(nameof(stackable) + " can't be added");
+            throw new InvalidOperationException(nameof(stackable) + " не может быть добавлен");
 
         if (_currentTypesThatCanBeAdded == null)
             _currentTypesThatCanBeAdded = FindTypesThatCanBeAdded(stackable.Type);
@@ -51,7 +52,7 @@ public class StackStorage
     public void Remove(Stackable stackable)
     {
         if (_stackables.Contains(stackable) == false)
-            throw new InvalidOperationException(nameof(stackable) + " not in stack");
+            throw new InvalidOperationException(nameof(stackable) + " не добавлен");
 
         _stackables.Remove(stackable);
 
@@ -66,7 +67,7 @@ public class StackStorage
         if (_stackables.Count == 0)
             return false;
 
-        foreach (var stackable in _stackables)
+        foreach (Stackable stackable in _stackables)
             if (stackable.Type == stackableType)
                 return true;
 

@@ -25,8 +25,8 @@ public abstract class Queue<T> : MonoBehaviour
         if (!_queues.Contains(queue))
             throw new InvalidOperationException();
 
-        OnRemove(queue);
         _queues.Remove(queue);
+        OnRemove(queue);
     }
 
     protected virtual void OnAdd(T queue) { }

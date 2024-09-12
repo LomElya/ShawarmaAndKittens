@@ -1,7 +1,7 @@
 public enum StackableType
 {
     Money = 0,
-    Stack1 = 1,
+    Shawarma = 1,
     Stack2 = 2,
     Stack3 = 3,
     Stack4 = 4,
@@ -11,5 +11,6 @@ public enum StackableType
     Stack8 = 8,
     Stack9 = 9,
     Stack10 = 10,
-    Stack11 = 11
+    Stack11 = 11,
+    None = 12
 }

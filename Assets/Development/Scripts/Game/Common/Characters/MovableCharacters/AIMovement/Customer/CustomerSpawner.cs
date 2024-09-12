@@ -46,6 +46,7 @@ public class CustomerSpawner : MonoBehaviour
         yield return new WaitUntil(() => _spawnedCustomers.Count < _maxCustomersAmount + 1);
 
         TrySpawnCustomer(_customers.TryGetRandomCustomer(CustomerType.Human));
+        TrySpawnCustomer(_customers.TryGetRandomCustomer(CustomerType.Human));
 
         yield return new WaitForSeconds(1f);
 

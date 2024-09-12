@@ -11,13 +11,13 @@ public abstract class JoinQueueState : AIMovementState
 
     protected abstract IEnumerable<AIMovementQueue> Queues { get; }
 
-    public JoinQueueState(AIMovementStateType stateType, AIMovementStateType targetState, AIMovement movenemt) : base(stateType, targetState, movenemt)
+    public JoinQueueState(AIMovementStateType stateType, AIMovement movenemt) : base(stateType, movenemt)
     {
     }
 
     protected override void onEnter()
     {
-        Debug.Log("Встал в очередь");
+        Debug.Log("Встал в очередь " + this.GetType());
         _movement.Enable();
 
         foreach (AIMovementQueue queue in Queues)
@@ -43,6 +43,8 @@ public abstract class JoinQueueState : AIMovementState
         if (_movementQueue == null)
             return;
 
+        _movementQueue.FirstChanged -= OnFirstChanged;
+
         if (_movementQueue.Peek() == _movement)
             _movementQueue.Dequeue();
         else
@@ -50,7 +52,12 @@ public abstract class JoinQueueState : AIMovementState
 
         _movement.Disable();
         //_customer.CreateNewPurchaseList();
-        _movementQueue.FirstChanged -= OnFirstChanged;
+
+        if (_movement as Customer)
+        {
+            Customer customer = _movement as Customer;
+            customer.CreateNewPurchaseList();
+        }
 
         OnExit();
     }
@@ -66,7 +73,7 @@ public abstract class JoinQueueState : AIMovementState
     private void OnCompleteMove()
     {
         _movement.Stop();
-        _movement.Look(-_movementQueue.transform.forward);
+        //_movement.Look(-_movementQueue.transform.forward);
     }
 
     protected virtual void OnEnter() { }

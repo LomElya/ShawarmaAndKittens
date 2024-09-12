@@ -1,4 +1,6 @@
 using System;
+using UnityEngine;
+using Zenject;
 
 public abstract class AIMovementState
 {
@@ -11,18 +13,17 @@ public abstract class AIMovementState
 
     public AIMovementStateType StateType => _stateType;
 
-    public AIMovementState(AIMovementStateType stateType, AIMovementStateType targetState, AIMovement movenemt)
+    public AIMovementState(AIMovementStateType stateType, AIMovement movenemt)
     {
         _movement = movenemt;
 
         _stateType = stateType;
-        Transition = SetTransition(targetState);
     }
 
     public void Enter()
     {
-        Transition?.Enable(EndTransit);
         onEnter();
+        Transition?.Enable(EndTransit);
     }
 
     public void Exit()
@@ -35,5 +36,6 @@ public abstract class AIMovementState
 
     protected abstract void onEnter();
     protected abstract void onExit();
-    public abstract Transition SetTransition(AIMovementStateType targetState);
+    public abstract Transition GetTransition(AIMovementStateType targetState);
+    public void SetTransition(Transition transition) => Transition = transition;
 }

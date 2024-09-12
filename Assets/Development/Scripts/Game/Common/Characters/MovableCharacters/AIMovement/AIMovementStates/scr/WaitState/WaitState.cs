@@ -20,13 +20,13 @@ public abstract class WaitState : AIMovementState
         _objectReference = objectReference;
     }
 
-    protected WaitState(AIMovementStateType stateType, AIMovementStateType targetState, AIMovement movenemt) : base(stateType, targetState, movenemt)
+    protected WaitState(AIMovementStateType stateType, AIMovement movenemt) : base(stateType, movenemt)
     {
     }
 
     protected override void onEnter()
     {
-        Debug.Log("Ждет, когда обслужат");
+        Debug.Log("Ждет, когда обслужат " + this.GetType());
 
         _movement.Enable();
         Move(WaitPoint);
@@ -39,7 +39,7 @@ public abstract class WaitState : AIMovementState
     {
         _movement.Move(waitPoint.position).OnComplete(() =>
         {
-            _movement.Look(-waitPoint.forward);
+            // _movement.Look(-waitPoint.forward);
             _movement.Stop();
             OnCompleateMove();
         });

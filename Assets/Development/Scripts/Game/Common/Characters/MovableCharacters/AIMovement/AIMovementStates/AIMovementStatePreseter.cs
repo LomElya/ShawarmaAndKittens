@@ -41,8 +41,8 @@ public class AIMovementStatePreseter : MonoBehaviour
             newState = _states[stateType].Get();
         else
         {
-            Debug.Log(_fabric);
             SequenceStateData stateData = GetData(stateType);
+
             newState = _fabric.CreateState(stateData.Type, stateData.TargetState, _parent);
             stateData.Add(newState);
 

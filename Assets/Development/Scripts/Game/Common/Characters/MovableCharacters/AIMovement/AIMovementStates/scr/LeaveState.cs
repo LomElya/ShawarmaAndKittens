@@ -1,27 +1,35 @@
 using UnityEngine;
+using Zenject;
 
 public class LeaveState : AIMovementState
 {
-    public LeaveState(AIMovementStateType stateType, AIMovementStateType targetState, AIMovement movenemt) : base(stateType, targetState, movenemt)
+    [Inject]
+    private CustomerSpawner _customerSpawner;
+
+    private Customer _customer;
+
+    public LeaveState(AIMovementStateType stateType, AIMovement movenemt) : base(stateType, movenemt)
     {
     }
 
-    public override Transition SetTransition(AIMovementStateType targetState)=> new NoneTransition();
+    public override Transition GetTransition(AIMovementStateType targetState) => new NoneTransition();
 
     protected override void onEnter()
     {
         Debug.Log("Уходит");
         _movement.Enable();
-        // _movement.Move(_parent.References.ExitPoint.position).OnComplete(OnCompleteMove);
+        _movement.Move(_customerSpawner.ExitPoint.position).OnComplete(OnCompleteMove);
     }
 
     private void OnCompleteMove()
     {
-        // _customer.Leave();
-        // _customerSpawner.DestroyCustomer(_customer);
+        if (_movement as Customer)
+        {
+            _customer = _movement as Customer;
+            _customer.Leave();
+            _customerSpawner.DestroyCustomer(_customer);
+        }
     }
 
     protected override void onExit() { }
-
-
 }

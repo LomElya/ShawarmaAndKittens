@@ -46,7 +46,7 @@ public class AIMovementQueue : Queue<AIMovement>
             FirstChanged?.Invoke(movement);
     }
 
-    public Vector2 GetPosition(AIMovement parent) => GetPositionOfIndex(_queues.LastIndexOf(parent));
+    public Vector2 GetPosition(AIMovement parent) => GetPositionOfIndex(_queues.IndexOf(parent));
     private Vector2 GetPositionOfIndex(int i) => transform.TransformPoint(new Vector2(0, i * _offset));
 
 #if UNITY_EDITOR

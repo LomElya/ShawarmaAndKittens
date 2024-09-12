@@ -14,7 +14,6 @@ public class WantToBeServedTransition : Transition
     {
         Unsubscribe();
         EndTransit();
-        NeedTransit = true;
     }
 
     private void Subscribe() => _stateParent.OnLeaveState += OnLeaveState;

@@ -4,7 +4,11 @@ using Zenject;
 
 public class TestStartup : MonoBehaviour
 {
-     [SerializeField] private MovementCharacter _playerMovement;
+    [SerializeField] private MovementCharacter _playerMovement;
+
+    [Space]
+    [SerializeField] private PlayerStackPresenter _stackPresenter;
+    [SerializeField] private StackInventoryList _stackInventoryList;
 
     private IInput _input;
 
@@ -16,6 +20,7 @@ public class TestStartup : MonoBehaviour
 
     private void Start()
     {
+        _stackInventoryList.Init(_stackPresenter);
         _input.Register(_playerMovement);
     }
 

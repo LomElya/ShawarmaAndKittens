@@ -14,6 +14,10 @@ public class AIMovement : MovementCharacter
     protected override void OnAwake()
     {
         _agent = GetComponent<NavMeshAgent>();
+
+        _agent.updateRotation = false;
+        _agent.updateUpAxis = false;
+
         enabled = false;
         Completed = false;
 

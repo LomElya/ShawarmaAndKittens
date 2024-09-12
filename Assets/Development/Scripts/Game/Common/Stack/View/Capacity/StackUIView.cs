@@ -24,9 +24,7 @@ public abstract class StackUIView : MonoBehaviour
         _stack = stack;
         _stackableContainer = stackableContainer;
 
-        _stackableContainer.Added += OnAdded;
-        _stackableContainer.Removed += OnRemoved;
-        _stack.CapacityChanged += OnCapacityChanged;
+        Subscribe();
 
         Render(_stack.Count, _stack.Capacity, _stackableContainer.FindTopPositionY());
     }
@@ -38,4 +36,30 @@ public abstract class StackUIView : MonoBehaviour
     private void OnAdded(Stackable stackable) => Render(_stack.Count, _stack.Capacity, _stackableContainer.FindTopPositionY());
     private void OnRemoved() => Render(_stack.Count, _stack.Capacity, _stackableContainer.FindTopPositionY());
     private void OnCapacityChanged() => Render(_stack.Count, _stack.Capacity, _stackableContainer.FindTopPositionY());
+
+    private void Subscribe()
+    {
+        if (_stackableContainer != null)
+        {
+            _stackableContainer.Added += OnAdded;
+            _stackableContainer.Removed += OnRemoved;
+        }
+
+        if (_stack != null)
+            _stack.CapacityChanged += OnCapacityChanged;
+    }
+
+    private void Unsubscribe()
+    {
+        if (_stackableContainer != null)
+        {
+            _stackableContainer.Added -= OnAdded;
+            _stackableContainer.Removed -= OnRemoved;
+        }
+
+        if (_stack != null)
+            _stack.CapacityChanged -= OnCapacityChanged;
+    }
+
+    private void OnDestroy() => Unsubscribe();
 }

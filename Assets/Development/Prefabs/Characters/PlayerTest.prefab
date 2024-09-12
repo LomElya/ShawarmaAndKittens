@@ -130,7 +130,8 @@ MonoBehaviour:
   _stackView: {fileID: 3055338153573227308}
   _stackUIView: {fileID: 1955974059539673517}
   _stackCapacity: 9999
-  _allTypesThatCanBeAdded: []
+  _allTypesThatCanBeAdded:
+  - {fileID: 11400000, guid: 5828efa813731ff46aa36f22d73a4df0, type: 2}
 --- !u!1 &1390961148393267003
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,7 +431,7 @@ MonoBehaviour:
   _scalePunch:
     _enabled: 1
     _value: 0.1
-  _scaleMultiply: {x: 1, y: 1}
+  _scaleMultiply: {x: 0, y: 0}
   _offsetY: 0.01
   _sortMoveDuration: 0.15
 --- !u!1 &6589350955659375014

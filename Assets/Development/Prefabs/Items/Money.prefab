@@ -64,7 +64,7 @@ MonoBehaviour:
   _collider: {fileID: 3898550259891284833}
   _horizontalForce: 7
   _canTakeDelay: 0.7
-  _money: {fileID: 321270840560128494}
+  _stackable: {fileID: 321270840560128494}
 --- !u!50 &2843625337015647052
 Rigidbody2D:
   serializedVersion: 4

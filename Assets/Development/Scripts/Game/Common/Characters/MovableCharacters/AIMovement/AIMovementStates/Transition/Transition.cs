@@ -13,12 +13,10 @@ public class Transition
 
     public AIMovementStateType TargetStateType => _targetStateType;
 
-    public bool NeedTransit { get; protected set; } = false;
 
     public void Enable(Action endTransit)
     {
         OnEndTransit = endTransit;
-        NeedTransit = false;
         onEnable();
     }
 

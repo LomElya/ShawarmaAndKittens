@@ -6,10 +6,13 @@ public class ReferencesInstaller : MonoInstaller
 {
     [SerializeField] InteractableObjectReference _interactablesObject;
     [SerializeField] QueuesReferences _queuesReferences;
+    [SerializeField] private PurchaseListFactory _purchaseListFactory;
 
     public override void InstallBindings()
     {
         BindReferences();
+
+        Container.Bind<PurchaseListFactory>().FromInstance(_purchaseListFactory).AsSingle();
     }
 
     private void BindReferences()

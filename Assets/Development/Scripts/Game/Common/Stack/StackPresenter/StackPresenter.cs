@@ -6,18 +6,17 @@ using System.Linq;
 
 public class StackPresenter : MonoBehaviour, IModificationListener<int>
 {
+    public event Action<Stackable> Added;
+    public event Action<Stackable> Removed;
+    public event Action BecameEmpty;
+    public event Action SetInputType;
+
     [SerializeField] private StackView _stackView;
     [SerializeField] private StackUIView _stackUIView;
     [SerializeField] private int _stackCapacity;
     [SerializeField] private List<StackableTypes> _allTypesThatCanBeAdded;
 
     private StackStorage _stack;
-
-    public event Action<Stackable> Added;
-    public event Action<Stackable> Removed;
-    public event Action BecameEmpty;
-
-    public event Action SetInputType;
 
     public IEnumerable<Stackable> Data => _stack.Data;
     public bool IsFull => _stack.Count == _stack.Capacity;
@@ -47,11 +46,19 @@ public class StackPresenter : MonoBehaviour, IModificationListener<int>
 
     public IEnumerable<Stackable> RemoveAll()
     {
-        var data = _stack.Data.ToArray();
-        foreach (var stackable in data)
+        Stackable[] data = _stack.Data.ToArray();
+        foreach (Stackable stackable in data)
             RemoveFromStack(stackable);
 
         return data;
+    }
+
+    public void RemoveAndDestroyAll()
+    {
+        IEnumerable<Stackable> stackables = RemoveAll();
+
+        foreach (Stackable stackable in stackables)
+            Destroy(stackable.gameObject);
     }
 
     public void RemoveFromStack(Stackable stackable)
@@ -69,7 +76,7 @@ public class StackPresenter : MonoBehaviour, IModificationListener<int>
         if (CanRemoveFromStack(stackableType) == false)
             throw new InvalidOperationException();
 
-        var lastStackable = _stack.FindLast(stackableType);
+        Stackable lastStackable = _stack.FindLast(stackableType);
 
         _stack.Remove(lastStackable);
         _stackView.Remove(lastStackable);

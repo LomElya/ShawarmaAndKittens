@@ -9,27 +9,28 @@ public class WaitReceiptOrderState : WaitState
     private StackPresenter _stackPresenter => _customer.Stack;
     protected override Transform WaitPoint => _table.Wait(_customer);
 
-    public WaitReceiptOrderState(AIMovementStateType stateType, AIMovementStateType targetState, AIMovement movenemt) : base(stateType, targetState, movenemt)
+    public WaitReceiptOrderState(AIMovementStateType stateType, AIMovement movenemt) : base(stateType, movenemt)
     {
         if (_movement as Customer)
             _customer = _movement as Customer;
     }
 
-    public override Transition SetTransition(AIMovementStateType targetState) => new WantToBeServedTransition(targetState, this);
+    public override Transition GetTransition(AIMovementStateType targetState) => new WantToBeServedTransition(targetState, this);
 
     protected override IEnumerator Leave()
     {
         _table.EndTransit();
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
 
         foreach (Stackable stackable in _table.TakeAllItems())
         {
             _stackPresenter.AddToStack(stackable);
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.15f);
         }
 
         LeaveState();
         _table.Leave();
+        _stackPresenter.RemoveAndDestroyAll();
         StopLeave();
     }
 
