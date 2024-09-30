@@ -43,17 +43,15 @@ public abstract class TimerInteractableZone : InteractableZoneBase, IModificatio
             StopCoroutine(_waitCoroutine);
     }
 
-    public override void Entered(StackPresenter enteredStack)
+    public override void Entered(Interactable enteredInteractable)
     {
-        if (CanInteract(enteredStack))
-        {
+        if (CanInteract(enteredInteractable.StackPresenter))
             StartTime();
-        }
         else
             _waitCoroutine = StartCoroutine(WaitUntilCanInteract(StartTime));
     }
 
-    public override void Exited(StackPresenter otherStack)
+    public override void Exited(Interactable otherInteractable)
     {
         if (_waitCoroutine != null)
             StopCoroutine(_waitCoroutine);

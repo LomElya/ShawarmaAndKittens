@@ -1,11 +1,10 @@
-using System;
 using GameHandler;
 using UnityEngine;
 using Zenject;
 
 public class Customer : AIMovement
 {
-    public event Action<Customer> Left;
+    public event System.Action<Customer> Left;
 
     [SerializeField] private MoneyPayer _moneyPayer;
     [SerializeField] private StackPresenter _stack;

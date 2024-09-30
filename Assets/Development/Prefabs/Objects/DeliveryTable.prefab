@@ -368,7 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 258b62c19f2ed0441a4596eed12b75d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _trigger: {fileID: 1713043044923162285}
+  _trigger: {fileID: 2439626877563081098}
   _timerView: {fileID: 0}
   _interactionTime: 0.1
   _deliveryTable: {fileID: 8571881682127723021}
@@ -963,7 +963,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4141673197020005650}
   - component: {fileID: 466515151503848764}
-  - component: {fileID: 1713043044923162285}
+  - component: {fileID: 2439626877563081098}
   m_Layer: 0
   m_Name: PlayerTrigger
   m_TagString: Untagged
@@ -1031,7 +1031,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.6921891, y: 0.67511487}
   m_EdgeRadius: 0
---- !u!114 &1713043044923162285
+--- !u!114 &2439626877563081098
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1040,7 +1040,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7049393084663564756}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd272c2eae83e484ab9688fe07b289e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d4f966280a43e14b8f558bb1a95c683, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _disableStayCallback: 0

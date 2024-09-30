@@ -1,32 +1,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Modification;
-using System;
 using System.Linq;
 
 public class StackPresenter : MonoBehaviour, IModificationListener<int>
 {
-    public event Action<Stackable> Added;
-    public event Action<Stackable> Removed;
-    public event Action BecameEmpty;
-    public event Action SetInputType;
+    public event System.Action<StackableType> Added;
+    public event System.Action<StackableType> Removed;
+    public event System.Action BecameEmpty;
+    public event System.Action SetInputType;
 
-    [SerializeField] private StackView _stackView;
+    [SerializeField] private StackViewBase _stackView;
     [SerializeField] private StackUIView _stackUIView;
     [SerializeField] private int _stackCapacity;
     [SerializeField] private List<StackableTypes> _allTypesThatCanBeAdded;
 
     private StackStorage _stack;
 
-    public IEnumerable<Stackable> Data => _stack.Data;
+    public IEnumerable<StackableType> Data => _stack.Data;
+
+    public bool IsEmpty => _stack.Count == 0;
     public bool IsFull => _stack.Count == _stack.Capacity;
     public int Count => _stack.Count;
     public int Capacity => _stack.Capacity;
 
     private void Awake() => _stack = new StackStorage(_stackCapacity, _allTypesThatCanBeAdded);
-    private void OnEnable() => _stackView.MoveEnded += OnStackableMoveEnded;
-    private void OnDisable() => _stackView.MoveEnded -= OnStackableMoveEnded;
-    private void Start() => _stackUIView?.Init(_stack, _stackView);
+    private void OnEnable() => Subscribe();
+    private void OnDisable() => Unsubscribe();
+    private void Start() => _stackUIView?.Init(_stack, _stackView, this);
 
     public bool CanAddToStack(StackableType stackableType) => _stack.CanAdd(stackableType);
     public bool CanRemoveFromStack(StackableType stackableType) => _stack.Contains(stackableType);
@@ -35,54 +36,54 @@ public class StackPresenter : MonoBehaviour, IModificationListener<int>
     public void OnModificationUpdate(int value) => ChangeCapacity(value);
     public int CalculateCount(StackableType stackableType) => _stack.CalculateCount(stackableType);
 
-    public void AddToStack(Stackable stackable)
+    public void AddToStack(StackableType stackable)
     {
-        if (CanAddToStack(stackable.Type) == false)
-            throw new InvalidOperationException();
+        if (CanAddToStack(stackable) == false)
+            throw new System.InvalidOperationException();
 
         _stack.Add(stackable);
         _stackView.Add(stackable);
     }
 
-    public IEnumerable<Stackable> RemoveAll()
+    public IEnumerable<StackableType> RemoveAll()
     {
-        Stackable[] data = _stack.Data.ToArray();
-        foreach (Stackable stackable in data)
+        StackableType[] data = _stack.Data.ToArray();
+        foreach (StackableType stackable in data)
             RemoveFromStack(stackable);
 
         return data;
     }
 
-    public void RemoveAndDestroyAll()
+    // public void RemoveAndDestroyAll()
+    // {
+    //     IEnumerable<StackableType> stackables = RemoveAll();
+
+    //     foreach (StackableType stackable in stackables)
+    //         Destroy(stackable.gameObject);
+    // }
+
+    // public void RemoveFromStack(Stackable stackable)
+    // {
+    //     _stack.Remove(stackable);
+    //     _stackView.Remove(stackable);
+    //     Removed?.Invoke(stackable);
+
+    //     if (_stack.Count == 0)
+    //         BecameEmpty?.Invoke();
+    // }
+
+    public StackableType RemoveFromStack(StackableType stackableType)
     {
-        IEnumerable<Stackable> stackables = RemoveAll();
+        if (!CanRemoveFromStack(stackableType))
+            throw new System.InvalidOperationException();
 
-        foreach (Stackable stackable in stackables)
-            Destroy(stackable.gameObject);
-    }
-
-    public void RemoveFromStack(Stackable stackable)
-    {
-        _stack.Remove(stackable);
-        _stackView.Remove(stackable);
-        Removed?.Invoke(stackable);
-
-        if (_stack.Count == 0)
-            BecameEmpty?.Invoke();
-    }
-
-    public Stackable RemoveFromStack(StackableType stackableType)
-    {
-        if (CanRemoveFromStack(stackableType) == false)
-            throw new InvalidOperationException();
-
-        Stackable lastStackable = _stack.FindLast(stackableType);
+        StackableType lastStackable = _stack.FindLast(stackableType);
 
         _stack.Remove(lastStackable);
         _stackView.Remove(lastStackable);
         Removed?.Invoke(lastStackable);
 
-        if (_stack.Count == 0)
+        if (IsEmpty)
             BecameEmpty?.Invoke();
 
         return lastStackable;
@@ -90,16 +91,34 @@ public class StackPresenter : MonoBehaviour, IModificationListener<int>
 
     public int CalculateCount(StackableType[] stackableType)
     {
-        var count = 0;
-        foreach (var type in stackableType)
+        int count = 0;
+        foreach (StackableType type in stackableType)
             count += _stack.CalculateCount(type);
 
         return count;
     }
 
-    private void OnStackableMoveEnded(Stackable stackable)
+    private void OnStackableMoveEnded(StackableType stackable)
     {
         Added?.Invoke(stackable);
         SetInputType?.Invoke();
+    }
+
+    private void RemoveStack(StackableType stackableType) => RemoveFromStack(stackableType);
+
+    private void Subscribe()
+    {
+        _stackView.MoveEnded += OnStackableMoveEnded;
+
+        if (_stackUIView != null)
+            _stackUIView.Remove += RemoveStack;
+    }
+
+    private void Unsubscribe()
+    {
+        _stackView.MoveEnded -= OnStackableMoveEnded;
+
+        if (_stackUIView != null)
+            _stackUIView.Remove -= RemoveStack;
     }
 }

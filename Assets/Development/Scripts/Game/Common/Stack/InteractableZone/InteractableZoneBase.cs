@@ -1,9 +1,10 @@
 using UnityEngine;
 
-public class InteractableZoneBase : MonoBehaviour
+public class InteractableZoneBase : MonoBehaviour, IInteractableZone
 {
-    [SerializeField] private Trigger<StackPresenter> _trigger;
+    [SerializeField] private Trigger<Interactable> _trigger;
 
+    protected Interactable EnteredInteractable;
     protected StackPresenter EnteredStack;
 
     private void OnEnable()
@@ -25,33 +26,56 @@ public class InteractableZoneBase : MonoBehaviour
         Disabled();
     }
 
-    private void OnEnter(StackPresenter enteredStack)
+    private void OnEnter(Interactable enteredInteractable)
     {
-        if (EnteredStack != null)
+        if (EnteredInteractable != null)
             return;
 
-        EnteredStack = enteredStack;
+        EnteredInteractable = enteredInteractable;
+        EnteredStack = enteredInteractable.StackPresenter;
 
-        Entered(enteredStack);
+        Entered(enteredInteractable);
     }
 
-    private void OnStay(StackPresenter enteredStack)
+    private void OnStay(Interactable enteredInteractable)
     {
-        if (EnteredStack == null)
-            OnEnter(enteredStack);
+        if (EnteredInteractable != null)
+            return;
+
+        enteredInteractable.Enter(this);
+        OnEnter(enteredInteractable);
+
+        // if (EnteredStack == null)
+        //     OnEnter(enteredStack);
     }
 
-    private void OnExit(StackPresenter otherStack)
+    private void OnExit(Interactable otherInteractable)
     {
-        if (otherStack == EnteredStack)
-        {
-            Exited(otherStack);
-            EnteredStack = null;
-        }
+        if (otherInteractable != EnteredInteractable)
+            return;
+
+
+        otherInteractable.Exit(this);
+        Exited(otherInteractable);
+
+        EnteredInteractable = null;
+        EnteredStack = null;
+
+        // if (otherStack == EnteredStack)
+        // {
+        //     Exited(otherStack);
+        //     EnteredStack = null;
+        // }
     }
 
-    public virtual void Entered(StackPresenter enteredStack) { }
-    public virtual void Exited(StackPresenter otherStack) { }
+    public virtual void Interact() { }
+    public virtual void Entered(Interactable enteredInteractable) { }
+    public virtual void Exited(Interactable otherInteractable) { }
     public virtual void Enabled() { }
     public virtual void Disabled() { }
+}
+
+public interface IInteractableZone
+{
+    void Interact();
 }

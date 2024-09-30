@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -10,13 +9,13 @@ public class MoneyPayer : MonoBehaviour
     [SerializeField] private Vector3 _spawnOffset = new Vector3(0.38f, 2.2f, 0.0f);
     [SerializeField] private float _payDelay = 1.5f;
 
-    private Action _payCompleted;
+    private System.Action _payCompleted;
     private int _defaultDollars;
     private float _force = 6f;
     private float _spawnDelayBetweenDollars = 0.1f;
     private Vector3 _spawnPosition => transform.position + _spawnOffset + Random.insideUnitSphere * 0.5f;
 
-    public event Action PayCompleted;
+    public event System.Action PayCompleted;
 
     public bool DollarsMultiplied => _dollars != _defaultDollars;
 
@@ -28,7 +27,7 @@ public class MoneyPayer : MonoBehaviour
     public void MultiplyMoneys()
     {
         if (DollarsMultiplied)
-            throw new InvalidOperationException("Already multiplied");
+            throw new System.InvalidOperationException("Already multiplied");
 
         _dollars *= 2;
     }
@@ -53,7 +52,7 @@ public class MoneyPayer : MonoBehaviour
         return this;
     }
 
-    public void OnPayCompleted(Action payCompleted)
+    public void OnPayCompleted(System.Action payCompleted)
     {
         _payCompleted = payCompleted;
     }

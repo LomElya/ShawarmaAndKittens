@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class StackMaxView : StackUIView
+public class StackMaxView : RenderStackUIView
 {
     [SerializeField] private GameObject _maxText;
     [SerializeField] private float _offsetY;

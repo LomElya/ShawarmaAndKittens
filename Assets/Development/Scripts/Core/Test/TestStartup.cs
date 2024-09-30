@@ -6,10 +6,6 @@ public class TestStartup : MonoBehaviour
 {
     [SerializeField] private MovementCharacter _playerMovement;
 
-    [Space]
-    [SerializeField] private PlayerStackPresenter _stackPresenter;
-    [SerializeField] private StackInventoryList _stackInventoryList;
-
     private IInput _input;
 
     [Inject]
@@ -20,12 +16,7 @@ public class TestStartup : MonoBehaviour
 
     private void Start()
     {
-        _stackInventoryList.Init(_stackPresenter);
+        //_stackInventoryList.Init(_stackPresenter);
         _input.Register(_playerMovement);
-    }
-
-    private void OnDestroy()
-    {
-        _input.Unregister();
     }
 }

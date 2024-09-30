@@ -1,13 +1,10 @@
-using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public abstract class StackView : MonoBehaviour, IStackableContainer
+public abstract class StackView : StackViewBase
 {
-    public event Action<Stackable> Added;
-    public event Action<Stackable> MoveEnded;
-    public event Action Removed;
+    // public event System.Action<StackableType> MoveEnded;
 
     [SerializeField] private Transform _stackContainer;
     [SerializeField] private float _animationDuration;
@@ -15,6 +12,9 @@ public abstract class StackView : MonoBehaviour, IStackableContainer
     [SerializeField] private Vector2 _scaleMultiply = Vector3.one;
 
     private List<Transform> _transforms = new List<Transform>();
+
+    protected override void onAdd(StackableType stackable) { }
+    protected override void onRemove(StackableType stackable) { }
 
     public void Add(Stackable stackable)
     {
@@ -30,14 +30,15 @@ public abstract class StackView : MonoBehaviour, IStackableContainer
         stackable.transform.DOComplete(true);
         stackable.transform.parent = _stackContainer;
 
-        stackable.transform.DOLocalMove(endPosition, _animationDuration).OnComplete(() => MoveEnded?.Invoke(stackable));
+        stackable.transform.DOLocalMove(endPosition, _animationDuration).OnComplete(() => InvokeMoveEnded(stackable.Type));
         stackable.transform.DOLocalRotate(endRotation, _animationDuration);
 
         if (_scalePunch.Enabled)
             stackable.transform.DOPunchScale(defaultScale * _scalePunch.Value, _animationDuration);
 
         _transforms.Add(stackable.transform);
-        Added?.Invoke(stackable);
+        Add(stackable.Type);
+        //Added?.Invoke(stackable);
     }
 
     public void Remove(Stackable stackable)
@@ -51,10 +52,11 @@ public abstract class StackView : MonoBehaviour, IStackableContainer
 
         Sort(_transforms);
 
-        Removed?.Invoke();
+        //Removed?.Invoke();
+        Remove(stackable.Type);
     }
 
-    public float FindTopPositionY()
+    public override float FindTopPositionY()
     {
         float topPositionY = 0f;
 
@@ -72,7 +74,7 @@ public abstract class StackView : MonoBehaviour, IStackableContainer
     protected virtual Vector2 CalculateEndRotation(Transform container, Transform stackable) => Vector2.zero;
 }
 
-[Serializable]
+[System.Serializable]
 public class Setting<T>
 {
     [SerializeField] private bool _enabled;
@@ -88,16 +90,8 @@ public class Setting<T>
     public T Value => _value;
 }
 
-[Serializable]
+[System.Serializable]
 public class FloatSetting : Setting<float>
 {
     public FloatSetting(bool enabled, float value) : base(enabled, value) { }
-}
-
-public interface IStackableContainer
-{
-    event Action<Stackable> Added;
-    event Action Removed;
-
-    float FindTopPositionY();
 }

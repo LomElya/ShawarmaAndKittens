@@ -22,7 +22,7 @@ public class WaitReceiptOrderState : WaitState
         _table.EndTransit();
         yield return new WaitForSeconds(1f);
 
-        foreach (Stackable stackable in _table.TakeAllItems())
+        foreach (StackableType stackable in _table.TakeAllItems())
         {
             _stackPresenter.AddToStack(stackable);
             yield return new WaitForSeconds(0.15f);
@@ -30,7 +30,8 @@ public class WaitReceiptOrderState : WaitState
 
         LeaveState();
         _table.Leave();
-        _stackPresenter.RemoveAndDestroyAll();
+       // _stackPresenter.RemoveAndDestroyAll();
+        _stackPresenter.RemoveAll();
         StopLeave();
     }
 

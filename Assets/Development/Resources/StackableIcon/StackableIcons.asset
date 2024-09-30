@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: StackableIcons
   m_EditorClassIdentifier: 
   _icons:
-  - _type: 1
+  - _type: 2
     _icon: {fileID: 1643004949, guid: c237f83f139259b4cafe30df3a102b54, type: 3}

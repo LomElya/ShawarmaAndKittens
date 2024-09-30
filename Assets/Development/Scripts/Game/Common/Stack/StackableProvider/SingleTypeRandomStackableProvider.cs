@@ -4,7 +4,7 @@ using UnityEngine;
 public class SingleTypeRandomStackableProvider : SingleTypeStackableProvider
 {
     [SerializeField] private StackableType _type;
-    [SerializeField] private List<Stackable> _stackableList;
+    [SerializeField] private List<StackableType> _stackableList;
 
     public override StackableType Type => _type;
 
@@ -14,16 +14,17 @@ public class SingleTypeRandomStackableProvider : SingleTypeStackableProvider
             return;
 
         for (var i = 0; i < _stackableList.Count; i++)
-            if (_stackableList[i]?.Type != _type)
+            if (_stackableList[i] != _type)
             {
                 Debug.LogWarning("Можно добавить только предмет с типом: " + Type);
-                _stackableList[i] = null;
+                _stackableList[i] = StackableType.None;
             }
     }
 
-    public override Stackable InstantiateStackable() =>
-      Instantiate(GetStackable(), transform);
+    public override StackableType InstantiateStackable() =>
+        GetStackable();
+        //Instantiate(GetStackable(), transform);
 
-    public override Stackable GetStackable() =>
+    public override StackableType GetStackable() =>
         _stackableList[Random.Range(0, _stackableList.Count)];
 }

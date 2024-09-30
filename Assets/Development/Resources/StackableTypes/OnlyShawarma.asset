@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ae95e9ca1e8d9e4c86b71a5cdacd6db, type: 3}
   m_Name: OnlyShawarma
   m_EditorClassIdentifier: 
-  _stackableTypes: 01000000
+  _stackableTypes: 02000000

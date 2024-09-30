@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1876164428772120884}
   - component: {fileID: 5203150156008769518}
-  - component: {fileID: 648440186424289019}
+  - component: {fileID: 8827215711294082083}
   m_Layer: 0
   m_Name: PlayerTrigger
   m_TagString: Untagged
@@ -201,7 +201,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7614078, y: 0.6716416}
   m_EdgeRadius: 0
---- !u!114 &648440186424289019
+--- !u!114 &8827215711294082083
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -210,7 +210,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2633544153503958219}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd272c2eae83e484ab9688fe07b289e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d4f966280a43e14b8f558bb1a95c683, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _disableStayCallback: 0
@@ -279,7 +279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2ce16341aaaccd478c04b09c4092b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _trigger: {fileID: 648440186424289019}
+  _trigger: {fileID: 8827215711294082083}
   _timerView: {fileID: 2717520205094692255}
   _interactionTime: 4
   _interactionObject: {fileID: 7732237529775218684}
@@ -580,6 +580,10 @@ PrefabInstance:
     - target: {fileID: 1588673639234049899, guid: 265e0675dcb25204bb401f27e2b67f44, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944935946141835068, guid: 265e0675dcb25204bb401f27e2b67f44, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5128210113266728371, guid: 265e0675dcb25204bb401f27e2b67f44, type: 3}
       propertyPath: m_Name

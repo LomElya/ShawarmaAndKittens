@@ -14,7 +14,7 @@ public class DeliveryTableInteractable : TimerInteractableZone
         {
             if (CanInteract(enteredStack, type))
             {
-                Stackable stackable = enteredStack.RemoveFromStack(type);
+                StackableType stackable = enteredStack.RemoveFromStack(type);
 
                 foreach (var stack in _stacks.Where(stack => CanAddToStack(type, stack)))
                 {
@@ -32,9 +32,9 @@ public class DeliveryTableInteractable : TimerInteractableZone
         }
     }
 
-    private Stackable TryRemoveStackable(StackPresenter enteredStack, StackableType type)
+    private StackableType TryRemoveStackable(StackPresenter enteredStack, StackableType type)
     {
-        Stackable stackable = null;
+        StackableType stackable = StackableType.None;
 
         if (CanInteract(enteredStack, type))
             stackable = enteredStack.RemoveFromStack(type);

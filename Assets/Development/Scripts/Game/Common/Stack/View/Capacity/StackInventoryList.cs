@@ -2,60 +2,62 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class StackInventoryList : MonoBehaviour
+public class StackInventoryList : StackUIView
 {
     [SerializeField] private List<StackInventoryView> _views = new();
     [SerializeField] private IconByStackable _iconByStackable;
 
-    private StackPresenter _stack;
-
-    public void Init(StackPresenter stack)
-    {
-        _stack = stack;
+    protected override void OnInit(StackStorage stack, IStackableContainer stackableContainer) =>
         _views.ForEach(view => view.Init(_iconByStackable));
-        Subscribe();
-    }
 
-    private void OnAddedStack(Stackable stackable)
+    protected override void OnAdded(StackableType stackable)
     {
-        StackableType type = stackable.Type;
-
-        if (Contains(type))
+        if (Contains(stackable))
             return;
 
         StackInventoryView view = GetEmptyView();
-        view.Add(type);
+        view.Add(stackable);
     }
 
-    private void OnRemovedStack(Stackable stackable)
+    protected override void OnRemoved(StackableType stackable)
     {
-        StackableType type = stackable.Type;
-
-        if (!Contains(type))
+        if (!Contains(stackable))
             return;
 
-        StackInventoryView view = GetView(type);
+        StackInventoryView view = GetView(stackable);
         view.Remove();
     }
+
+    protected override void OnCapacityChanged() { }
 
     private bool Contains(StackableType type) => _views.Any(view => view.Type == type && view.Empty == false);
     private StackInventoryView GetEmptyView() => _views.FirstOrDefault(view => view.Empty == true);
     private StackInventoryView GetView(StackableType type) => _views.FirstOrDefault(view => view.Type == type);
 
-    private void Subscribe()
+    private void OnSelectedSlot(StackInventoryView selectedView)
     {
-        _stack.Added += OnAddedStack;
-        _stack.Removed += OnRemovedStack;
+        _views.ForEach(view =>
+        {
+            if (view != selectedView)
+                view.Unselect();
+        });
     }
 
-    private void Unsubscribe()
+    protected override void OnSubscribe()
     {
-        if (_stack == null)
-            return;
-
-        _stack.Added -= OnAddedStack;
-        _stack.Removed -= OnRemovedStack;
+        _views.ForEach(view =>
+              {
+                  view.RemoveStot += InvokeRemove;
+                  view.OnSelected += OnSelectedSlot;
+              });
     }
 
-    private void OnDestroy() => Unsubscribe();
+    protected override void OnUnsubscribe()
+    {
+        _views.ForEach(view =>
+               {
+                   view.RemoveStot -= InvokeRemove;
+                   view.OnSelected -= OnSelectedSlot;
+               });
+    }
 }

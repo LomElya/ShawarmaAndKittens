@@ -2,40 +2,40 @@ using UnityEngine;
 
 public abstract class StackUIView : MonoBehaviour
 {
-    private StackStorage _stack;
-    private IStackableContainer _stackableContainer;
+    public event System.Action<StackableType> Remove;
+
+    protected StackStorage _stack;
+    protected IStackableContainer _stackableContainer;
+    protected StackPresenter _stackPresenter;
 
     private void OnEnable() => Enable();
 
     private void OnDisable()
     {
-        if (_stack != null)
-        {
-            _stackableContainer.Added -= OnAdded;
-            _stackableContainer.Removed -= OnRemoved;
-            _stack.CapacityChanged -= OnCapacityChanged;
-        }
+        Unsubscribe();
 
         Disable();
     }
 
-    public void Init(StackStorage stack, IStackableContainer stackableContainer)
+    public void Init(StackStorage stack, IStackableContainer stackableContainer, StackPresenter stackPresenter)
     {
         _stack = stack;
         _stackableContainer = stackableContainer;
+        _stackPresenter = stackPresenter;
 
         Subscribe();
-
-        Render(_stack.Count, _stack.Capacity, _stackableContainer.FindTopPositionY());
+        OnInit(stack, stackableContainer);
     }
 
-    protected abstract void Render(int currentCount, int capacity, float topPositionY);
+    protected abstract void OnAdded(StackableType stackable);
+    protected abstract void OnRemoved(StackableType stackable);
+    protected abstract void OnCapacityChanged();
+
     protected virtual void Enable() { }
     protected virtual void Disable() { }
-
-    private void OnAdded(Stackable stackable) => Render(_stack.Count, _stack.Capacity, _stackableContainer.FindTopPositionY());
-    private void OnRemoved() => Render(_stack.Count, _stack.Capacity, _stackableContainer.FindTopPositionY());
-    private void OnCapacityChanged() => Render(_stack.Count, _stack.Capacity, _stackableContainer.FindTopPositionY());
+    protected virtual void OnInit(StackStorage stack, IStackableContainer stackableContainer) { }
+    protected virtual void OnSubscribe() { }
+    protected virtual void OnUnsubscribe() { }
 
     private void Subscribe()
     {
@@ -47,6 +47,8 @@ public abstract class StackUIView : MonoBehaviour
 
         if (_stack != null)
             _stack.CapacityChanged += OnCapacityChanged;
+
+        OnSubscribe();
     }
 
     private void Unsubscribe()
@@ -59,7 +61,10 @@ public abstract class StackUIView : MonoBehaviour
 
         if (_stack != null)
             _stack.CapacityChanged -= OnCapacityChanged;
+
+        OnUnsubscribe();
     }
 
+    protected void InvokeRemove(StackableType stackableType) => Remove?.Invoke(stackableType);
     private void OnDestroy() => Unsubscribe();
 }

@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,9 +13,9 @@ public class DeliveryTable : InteractableObject
 
     public IEnumerable<StackPresenter> DeliveryStacks => _deliveryStacks;
 
-    public IEnumerable<Stackable> TakeAllItems()
+    public IEnumerable<StackableType> TakeAllItems()
     {
-        IEnumerable<Stackable> stackables = new List<Stackable>();
+        IEnumerable<StackableType> stackables = new List<StackableType>();
         stackables = _deliveryStacks.Aggregate(stackables, (current, stack) => current.Concat(stack.RemoveAll()));
 
         _activeCustomer.Pay(_moneyZone, PurchaseList.TotalPrice);
@@ -30,7 +28,7 @@ public class DeliveryTable : InteractableObject
     public void Deliver(StackableType type)
     {
         if (Active == false)
-            throw new InvalidOperationException();
+            throw new System.InvalidOperationException();
 
         PurchaseList.Remove(type);
         _purchaseListView.UpdateView();

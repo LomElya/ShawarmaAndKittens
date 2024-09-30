@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aceb0a03be3f75640b738c4e101ed7c9, type: 3}
+  m_Name: IngredientContainer
+  m_EditorClassIdentifier: 
+  _datas:
+  - Name: Lavash
+    _type: 1
+    _image: {fileID: 0}
+    _openPrice: 0
+    _purchasePrice: 20
+  - Name: Chicken
+    _type: 2
+    _image: {fileID: 0}
+    _openPrice: 0
+    _purchasePrice: 40
+  - Name: Cucumber_Tomato
+    _type: 3
+    _image: {fileID: 0}
+    _openPrice: 0
+    _purchasePrice: 30
+  - Name: Cabbage
+    _type: 4
+    _image: {fileID: 0}
+    _openPrice: 0
+    _purchasePrice: 30
+  - Name: RedSauce
+    _type: 5
+    _image: {fileID: 0}
+    _openPrice: 0
+    _purchasePrice: 25
+  - Name: WhiteSauce
+    _type: 6
+    _image: {fileID: 0}
+    _openPrice: 0
+    _purchasePrice: 25
+  - Name: Carrot
+    _type: 7
+    _image: {fileID: 0}
+    _openPrice: 500
+    _purchasePrice: 100
+  - Name: Pepper
+    _type: 8
+    _image: {fileID: 0}
+    _openPrice: 1500
+    _purchasePrice: 300
+  - Name: Pork
+    _type: 9
+    _image: {fileID: 0}
+    _openPrice: 3400
+    _purchasePrice: 680
+  - Name: Cheese
+    _type: 10
+    _image: {fileID: 0}
+    _openPrice: 8000
+    _purchasePrice: 1600
+  - Name: Potato
+    _type: 11
+    _image: {fileID: 0}
+    _openPrice: 14000
+    _purchasePrice: 2800
+  - Name: Beef
+    _type: 12
+    _image: {fileID: 0}
+    _openPrice: 35000
+    _purchasePrice: 7000
+  - Name: Bacon
+    _type: 13
+    _image: {fileID: 0}
+    _openPrice: 42000
+    _purchasePrice: 8400
+  - Name: Seafood
+    _type: 14
+    _image: {fileID: 0}
+    _openPrice: 56000
+    _purchasePrice: 11200
+  - Name: Egg
+    _type: 15
+    _image: {fileID: 0}
+    _openPrice: 0
+    _purchasePrice: 0
+  - Name: None
+    _type: 0
+    _image: {fileID: 0}
+    _openPrice: 0
+    _purchasePrice: 0

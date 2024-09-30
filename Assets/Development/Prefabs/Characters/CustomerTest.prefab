@@ -214,7 +214,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1029335854426260961}
-  - component: {fileID: 6442620079382030108}
+  - component: {fileID: 6072041099672463453}
   m_Layer: 0
   m_Name: Container
   m_TagString: Untagged
@@ -237,7 +237,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2854483061337615438}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6442620079382030108
+--- !u!114 &6072041099672463453
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -246,17 +246,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4335849102697582284}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72a353558e7e18e49941605373c6893e, type: 3}
+  m_Script: {fileID: 11500000, guid: 13cedc2b63b19f148a13c859d5f9a3d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stackContainer: {fileID: 2508000590057186871}
-  _animationDuration: 0.2
-  _scalePunch:
-    _enabled: 1
-    _value: 1.1
-  _scaleMultiply: {x: 0, y: 0}
-  _offsetY: 0
-  _sortMoveDuration: 2
 --- !u!1 &6650272360086404314
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,7 +345,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.019778524, y: 0.013185292}
@@ -450,7 +442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eb405f2902a0914a8e63818cc343148, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stackView: {fileID: 6442620079382030108}
+  _stackView: {fileID: 6072041099672463453}
   _stackUIView: {fileID: 0}
   _stackCapacity: 999
   _allTypesThatCanBeAdded:

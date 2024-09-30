@@ -4,7 +4,7 @@ using UnityEngine;
 public class TimerProducer : TimerInteractableZone
 {
     public event Action StackedInteraction;
-    public event Action<Stackable> ItemGave;
+    public event Action<StackableType> ItemGave;
     public event Action<StackPresenter> Enter;
     public event Action<StackPresenter> Exit;
 
@@ -14,16 +14,16 @@ public class TimerProducer : TimerInteractableZone
     public StackableType Type => _stackableProvider.Type;
     public int MaxCount => _maxCount;
 
-    public override void Entered(StackPresenter enteredStack)
+    public override void Entered(Interactable enteredInteractable)
     {
-        base.Entered(enteredStack);
-        Enter?.Invoke(enteredStack);
+        base.Entered(enteredInteractable);
+        Enter?.Invoke(enteredInteractable.StackPresenter);
     }
 
-    public override void Exited(StackPresenter otherStack)
+    public override void Exited(Interactable otherInteractable)
     {
-        base.Exited(otherStack);
-        Exit?.Invoke(otherStack);
+        base.Exited(otherInteractable);
+        Exit?.Invoke(otherInteractable.StackPresenter);
     }
 
     public override bool CanInteract(StackPresenter enteredStack)
@@ -32,7 +32,7 @@ public class TimerProducer : TimerInteractableZone
 
     public override void InteractAction(StackPresenter enteredStack)
     {
-        Stackable stackable = _stackableProvider.InstantiateStackable();
+        StackableType stackable = _stackableProvider.InstantiateStackable();
         enteredStack.AddToStack(stackable);
 
         StackedInteraction?.Invoke();

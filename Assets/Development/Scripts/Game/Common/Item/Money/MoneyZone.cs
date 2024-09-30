@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,8 +11,8 @@ public class MoneyZone : MonoBehaviour
 
     private List<Money> _moneys = new();
 
-    public event Action Changed;
-    public event Action Removed;
+    public event System.Action Changed;
+    public event System.Action Removed;
 
     public int Moneys => _moneys.Count;
     public int MoneysValue { get; private set; }
@@ -37,7 +36,7 @@ public class MoneyZone : MonoBehaviour
     public Money Remove()
     {
         if (_moneys.Count == 0)
-            throw new InvalidOperationException("No money");
+            throw new System.InvalidOperationException("No money");
 
         Money lastMoney = _moneys[_moneys.Count - 1];
 

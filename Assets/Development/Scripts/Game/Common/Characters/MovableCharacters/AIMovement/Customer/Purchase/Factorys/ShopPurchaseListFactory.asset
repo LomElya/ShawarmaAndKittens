@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ShopPurchaseListFactory
   m_EditorClassIdentifier: 
   _items:
-  - <StackableType>k__BackingField: 1
+  - <StackableType>k__BackingField: 2
   _maxCount: 2
