@@ -20,6 +20,7 @@ public abstract class MovementCharacter : Character, IMovable
     {
         ChangeMove(true);
         OnMove(direction);
+        _view.Move(direction);
         _view.Flip(direction);
     }
 
