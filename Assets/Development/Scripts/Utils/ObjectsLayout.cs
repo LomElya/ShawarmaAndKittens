@@ -1,9 +1,9 @@
+#if UNITY_EDITOR
+
 using UnityEngine;
 using UnityEditor;
 
-#if UNITY_EDITOR
 [ExecuteInEditMode]
-#endif
 public class ObjectsLayout : MonoBehaviour
 {
     [SerializeField] private Type _type;
@@ -11,26 +11,21 @@ public class ObjectsLayout : MonoBehaviour
 
     private int _childCount;
 
-#if UNITY_EDITOR
-    private void OnValidate() => UpdatePositions();
-#endif
+    private void OnValidate()
+    {
+        UpdatePositions();
+    }
 
     private void OnEnable()
     {
         _childCount = transform.childCount;
-#if UNITY_EDITOR
         EditorApplication.hierarchyChanged += OnHierarchyChanged;
-#endif
     }
 
     private void OnDisable()
     {
-#if UNITY_EDITOR
         EditorApplication.hierarchyChanged -= OnHierarchyChanged;
-#endif
     }
-
-    public void OnChange() => OnHierarchyChanged();
 
     private void OnHierarchyChanged()
     {
@@ -51,15 +46,17 @@ public class ObjectsLayout : MonoBehaviour
             if (_type == Type.Horizontal)
                 position += Vector3.right * _space;
             if (_type == Type.Vertical)
-                position += Vector3.down * _space;
+                position += Vector3.forward * _space;
         }
 
         EditorUtility.SetDirty(this);
     }
 
-    private enum Type
+    public enum Type
     {
         Horizontal,
         Vertical
     }
 }
+
+#endif

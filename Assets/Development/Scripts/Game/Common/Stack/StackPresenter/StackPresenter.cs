@@ -27,7 +27,7 @@ public class StackPresenter : MonoBehaviour, IModificationListener<int>
     private void Awake() => _stack = new StackStorage(_stackCapacity, _allTypesThatCanBeAdded);
     private void OnEnable() => Subscribe();
     private void OnDisable() => Unsubscribe();
-    private void Start() => _stackUIView?.Init(_stack, _stackView, this);
+    private void Start() => _stackUIView?.Init(_stack, _stackView);
 
     public bool CanAddToStack(StackableType stackableType) => _stack.CanAdd(stackableType);
     public bool CanRemoveFromStack(StackableType stackableType) => _stack.Contains(stackableType);

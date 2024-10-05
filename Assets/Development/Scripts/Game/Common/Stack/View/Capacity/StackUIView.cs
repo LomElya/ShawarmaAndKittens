@@ -6,7 +6,6 @@ public abstract class StackUIView : MonoBehaviour
 
     protected StackStorage _stack;
     protected IStackableContainer _stackableContainer;
-    protected StackPresenter _stackPresenter;
 
     private void OnEnable() => Enable();
 
@@ -17,11 +16,10 @@ public abstract class StackUIView : MonoBehaviour
         Disable();
     }
 
-    public void Init(StackStorage stack, IStackableContainer stackableContainer, StackPresenter stackPresenter)
+    public void Init(StackStorage stack, IStackableContainer stackableContainer)
     {
         _stack = stack;
         _stackableContainer = stackableContainer;
-        _stackPresenter = stackPresenter;
 
         Subscribe();
         OnInit(stack, stackableContainer);
